@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+    <title>Noticia</title>
+</head>
+
+<body style="background-color: rgb(238, 181, 38);">
+    <header>
+        <div>
+            <h1
+                style="text-align:center; margin-top:15px; font-size:38px; color:rgb(250, 242, 242); text-shadow: 2px 2px 2px rgb(88, 70, 70);">
+                Portal de Noticias</h1>
+            <h2 sec:authorize="hasRole('ADMIN')"
+                style="text-align: center; color:rgb(234, 243, 250); text-shadow: 2px 2px 2px rgb(88, 70, 70);">
+                Administrador</h2>
+            <h2 sec:authorize="hasRole('PERIODISTA')"
+                style="text-align: center; color:rgb(231, 241, 250);text-shadow: 2px 2px 2px rgb(88, 70, 70);">
+                Periodista</h2>
+            <div>
+                <nav th:replace="/fragments/navbar :: nav"></nav>
+            </div>
+
+            <header>
+                <div class="text-bg-light p-3" style="border-bottom: 3px rgb(240, 126, 126) solid; margin:10px;">
+                    <h1 th:text="${id.titulo}"
+                        style="text-align:center; margin-top:15px; font-size:25px; color:rgb(5, 5, 5); border-bottom: 1px;">
+                        TITULOOO</h1>
+                </div>
+            </header>
+        </div>
+        <div class="text-bg-light p-3" style="border:0.5px solid black; padding:10px; margin:10px;box: shadow 10px;">
+            <p th:text="${id.cuerpo}"
+                style="margin-left:15px;margin-top:20px;padding:20px; color:rgb(0, 0, 0);font-style: italic;">
+                textoooooasdonsadunu n p na pusdna nai dnai ndaupi naui nauis naisdnb as </p>
+        </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
+</body>
+
+</html>

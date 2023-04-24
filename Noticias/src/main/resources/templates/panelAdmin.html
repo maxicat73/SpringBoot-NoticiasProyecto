@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <title>Portal Noticias</title>
+</head>
+
+<body style="background-color: rgb(238, 181, 38);"> 
+    <header>
+        <div>
+        <h1 style="text-align:center; margin-top:15px; font-size:38px; color:rgb(250, 242, 242); text-shadow: 2px 2px 2px rgb(88, 70, 70);" >Panel Noticias</h1>
+        <h2 sec:authorize="hasRole('ADMIN')" style="text-align: center; color:rgb(234, 243, 250); text-shadow: 2px 2px 2px rgb(88, 70, 70);"> Administrador</h2>
+        <h2 sec:authorize="hasRole('PERIODISTA')" style="text-align: center; color:rgb(231, 241, 250);text-shadow: 2px 2px 2px rgb(88, 70, 70);"> Periodista</h2>
+    </div>
+        <nav th:replace="/fragments/navbar :: nav"></nav> 
+
+    </header>
+<div class="container justify-content-between"  >
+<div class="row row-cols-1 row-cols-md-3 g-4" > <!--style="margin-top: 20px; border:solid 2px;"-->
+    <div class="col" th:each="noticia:${noti}">  
+        <div class="card h-100" style="width: 20rem;height: 200px;margin: 5px; background-color:rgb(252, 215, 215);">
+            <div class="card-body" style="margin: 5px;">
+                <h5 class="card-title" th:text="${noticia.titulo}" style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;text-align: center; font-size: 25px; color:rgb(7, 4, 2)"></h5>
+                <p class="card-text" th:text="${noticia.cuerpo}" style="font-family: 'Open Sans', sans-serif; display: -webkit-box;
+                max-height: 150px;
+                -webkit-line-clamp: 7;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;"> 
+                </p>
+                <a th:href="@{/panelAdmin/editar/__${noticia.id}__}" class="card-link" 
+                style="font-size:medium;font-style:italic; box-shadow: brown; text-shadow: 20px black;" >Modificar Noticia </a>
+                <a sec:authorize="hasAnyRole('ADMIN','PERIODISTA')"  th:href="@{/panelAdmin/eliminar/__${noticia.id}__}" class="card-link" style="font-size:medium;font-style:italic; box-shadow: brown; text-shadow: 20px black;"> Eliminar Noticia </a>
+                <a th:href="@{/mostrarNoticia/__${noticia.id}__}" class="card-link" style="font-size:medium;font-style:italic; box-shadow: brown; text-shadow: 20px black;"> Leer Noticia </a>
+                
+            </div>
+
+        </div>
+    </div>
+    </div>
+</div>
+<div class="container-fluid" sec:authorize="hasRole('ADMIN')" th:if="${usuarios != null}">
+    <h3 class="mb-2">Usuarios</h3>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Lista de Usuarios</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre de Usuario</th>
+                            <th scope="col">Alta</th>
+                            <th scope="col">Rol</th>
+                            <th class="text-center" scope="col" colspan="1">Modificar</th>
+                        </tr>
+                    </thead>
+                    <tbody th:each="usuario : ${usuarios}">
+                        <tr>
+                            <td scope="col" th:text="${usuario.nombreUsuario}"></td>
+                            <td scope="col" th:text="${usuario.alta}"></td>
+                            <td scope="col" th:text="${usuario.rol}"></td>
+                            <td class="text-center">
+                                <a class="btn" th:href="@{/dashboard/crear/__${usuario.id}__}">
+                                    <button class="btn btn-primary btn-user btn-block">Crear Periodista</button>
+                                </a>  
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>    
+<div class="container-fluid" sec:authorize="hasRole('ADMIN')" th:if="${periodistas != null}">
+    <h3 class="mb-2">Periodistas</h3>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Lista de Periodistas</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre de Usuario</th>
+                            <th scope="col">Alta</th>
+                            <th scope="col">Rol</th>
+                            <th class="text-center" scope="col">Activo</th>
+                            <th class="text-center" scope="col">Inactivo</th>
+                            <th class="text-center" scope="col">Sueldo</th>
+                            <th class="text-center" scope="col">Modificar</th>
+                        </tr>
+                    </thead>
+                    <tbody th:each="periodista : ${periodistas}">
+                        <tr>
+                            <form th:action="@{/dashboard/modificar}" method="POST">
+                                <input hidden th:value="${periodista.id}" name="id">
+                                <td scope="col" th:text="${periodista.nombreUsuario}"></td>
+                                <td scope="col" th:text="${periodista.alta}"></td>
+                                <td scope="col" th:text="${periodista.rol}"></td>
+                                <td class=" text-center" scope="col">
+                                    <input th:if="${periodista.activo == true}" checked value="true" type="radio" name="activo">
+                                    <input th:if="${periodista.activo != true}" value="true" type="radio" name="activo">
+                                </td>
+                                <td class=" text-center" scope="col">
+                                    <input th:if="${periodista.activo != true}" checked value="false" type="radio" name="activo">
+                                    <input th:if="${periodista.activo == true}" value="false" type="radio" name="activo">
+                                </td>
+                                <td scope="col">
+                                    <input type="number" th:value="${periodista.sueldoMensual}" class="form-control" name="sueldoMensual">
+                                </td>
+                                <td class="text-center"><a class="btn">
+                                    <button type="submit" class="btn btn-primary btn-user btn-block">Enviar</button>
+                                </a></td>
+                            </form>    
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
+

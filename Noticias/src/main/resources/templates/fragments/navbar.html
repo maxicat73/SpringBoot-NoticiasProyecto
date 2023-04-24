@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+     
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a th:href="@{/listar}" class="nav-link active" aria-current="page" >Inicio </a>
+          </li>
+          
+          <li class="nav-item">
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/panelAdmin}" class="nav-link" >Noticias</a>
+          </li>
+          <li class="nav-item">
+            <a sec:authorize="hasAnyRole('ADMIN','PERIODISTA')" th:href="@{/cargar}" class="nav-link active" aria-current="page" >Crear Noticia </a>
+          </li>
+          <li class="nav-item">
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/dashboard/usuarios}" class="nav-link active" aria-current="page" >modificar Perfiles </a>
+          </li>
+          <li class="nav-item">
+            <a th:href="@{/portal/logout}" class="nav-link active" aria-current="page" >Cerrar Sesion </a>
+          </li>
+
+        </ul>
+        <div>
+          <p th:if="session.usuariosession != null" th:text="'Hola '+ ${session.usuariosession.nombreUsuario} " style="font-family: 'Times New Roman', Times, serif; text-align: center; padding: 2px;"></p>
+          <div class="container">
+            <a th:if="${session.usuariosession.imagen != null}" class="d-flex align-items-center" >
+                <img class="logo" width="150px" height="75px" th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="foto" >
+            </a>
+        </div>
+        </div>
+      
+      </div>
+     
+  </nav>

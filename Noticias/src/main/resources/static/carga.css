@@ -1,0 +1,45 @@
+
+
+.titulo{
+    margin-top: auto;
+    padding: 15px;
+    font-size: 25px;
+    color:rgb(114, 102, 102) ; 
+    font-family:sans-serif;
+    background-color:rgb(245, 242, 99);
+    text-align: center;
+
+}
+
+.formulario{
+    margin-top: 15px;
+    padding: 20px;
+    border: solid 3px;
+    background-color:rgb(245, 242, 99);
+    color:rgb(133, 126, 126) ; 
+}
+
+.formulario label{
+
+
+    font-size: large;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-style: italic;
+    font-weight: bold;
+    
+    
+}
+
+.formulario button{
+
+
+font-size: medium;
+font-weight: bold;
+text-align: center;
+border-radius:solid 2px;
+border-color: black;
+background-color: rgb(223, 250, 223);
+align-self: center;
+
+
+}
